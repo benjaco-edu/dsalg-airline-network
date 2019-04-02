@@ -6,8 +6,8 @@ public class Main {
     public static void main(String[] args) throws CloneNotSupportedException {
         AirrouteGraph graph = buildGraph();
 
-//        boolean dfs = depthFirstSearch(graph, "AER", "OVB");
-//        System.out.println(dfs);
+        boolean dfs = depthFirstSearch(graph, "AER", "OVB");
+        System.out.println(dfs);
 
         Path bfs = breadthFirstSearch(graph, "AER", "OVB");
         System.out.println(bfs);
@@ -15,16 +15,43 @@ public class Main {
 
     }
 
-//    private static boolean depthFirstSearch(AirrouteGraph graph, String start, String end) {
-//        if (start.equals(end)) {
-//            return true;
-//        }
-//        Map<String, Boolean> explored = new HashMap<>();
-//
-//        for (AirRoute new_location : graph.adj(start)) {
-//
-//        }
-//    }
+    private static boolean depthFirstSearch(AirrouteGraph graph, String start, String end) throws CloneNotSupportedException{
+        if (start.equals(end)) {
+            return true;
+        }
+
+        for (AirRoute new_start_location : graph.adj(start)) {
+            Map<String, Boolean> explored = new HashMap<String, Boolean>();
+            explored.put(start, true);
+
+            if (new_start_location.destination.equals(end)) {
+                return true;
+            }
+
+            if (depthExloration(new_start_location.destination, end, new_start_location.airlinenetwork, graph, explored)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+
+    private static boolean depthExloration(String start, String end, String airline, AirrouteGraph graph, Map<String, Boolean> explored) {
+
+        for (AirRoute new_location : graph.adj(start)) {
+            if (explored.containsKey(new_location.destination) || !new_location.airlinenetwork.equals(airline)) {
+                continue;
+            }
+            if (new_location.destination.equals(end)) {
+                return true;
+            }
+            explored.put(new_location.destination, true);
+            if(depthExloration(new_location.destination, end, airline, graph, explored)){
+                return true;
+            }
+        }
+        return false;
+    }
 
     private static Path breadthFirstSearch(AirrouteGraph graph, String start, String goal) throws CloneNotSupportedException {
         if (start.equals(goal)) {
