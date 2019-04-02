@@ -6,44 +6,66 @@ public class Main {
     public static void main(String[] args) throws CloneNotSupportedException {
         AirrouteGraph graph = buildGraph();
 
+//        boolean dfs = depthFirstSearch(graph, "AER", "OVB");
+//        System.out.println(dfs);
+
         Path bfs = breadthFirstSearch(graph, "AER", "OVB");
         System.out.println(bfs);
 
 
     }
 
+//    private static boolean depthFirstSearch(AirrouteGraph graph, String start, String end) {
+//        if (start.equals(end)) {
+//            return true;
+//        }
+//        Map<String, Boolean> explored = new HashMap<>();
+//
+//        for (AirRoute new_location : graph.adj(start)) {
+//
+//        }
+//    }
+
     private static Path breadthFirstSearch(AirrouteGraph graph, String start, String goal) throws CloneNotSupportedException {
-        FiFo<Path> frontier = new FiFo<>();
-        frontier.enqueue(new Path(start));
-        Map<String, Boolean> explored = new HashMap<>();
-
         if (start.equals(goal)) {
-            return frontier.dequeue();
+            return new Path(start);
         }
 
-        while (frontier.size() > 0) {
-            Path node = frontier.dequeue();
-            if (node.getLocation().equals(goal)) {
-                return node;
+        for (AirRoute startTrip : graph.adj(start)) {
+            FiFo<Path> frontier = new FiFo<>();
+            ArrayList<String> startPath = new ArrayList<>();
+            startPath.add(start);
+            Path item = new Path(startTrip.destination, startPath);
+            item.setAirline(startTrip.airlinenetwork);
+
+            frontier.enqueue(item);
+            Map<String, Boolean> explored = new HashMap<>();
+
+            if (startTrip.destination.equals(goal)) {
+                return frontier.dequeue();
             }
-            explored.put(node.getLocation(), true);
-            for (AirRoute new_location : graph.adj(node.getLocation())) {
-                if (explored.containsKey(new_location.destination) || locationInQue(new_location.destination, frontier) || !sameAirlineAsStart(new_location.airlinenetwork, node)) {
-                    continue;
+
+            while (frontier.size() > 0) {
+                Path node = frontier.dequeue();
+                if (node.getLocation().equals(goal)) {
+                    return node;
                 }
-                frontier.enqueue(node.goPath(new_location.destination));
+                explored.put(node.getLocation(), true);
+                for (AirRoute new_location : graph.adj(node.getLocation())) {
+                    if (explored.containsKey(new_location.destination)
+                            || locationInQue(new_location.destination, frontier)
+                            || !new_location.airlinenetwork.equals(node.getAirline())
+                            || new_location.destination.equals(start)) {
+                        continue;
+                    }
+                    frontier.enqueue(node.goPath(new_location.destination));
 
+                }
             }
         }
-        return null;
-    }
 
-    private static boolean sameAirlineAsStart(String airlinenetwork, Path node) {
-        if (node.getPath().size() == 0) {
-            node.setAirline(airlinenetwork);
-            return true;
-        }
-        return node.getAirline().equals(airlinenetwork);
+
+        return null;
     }
 
     private static boolean locationInQue(String destination, FiFo<Path> frontier) {

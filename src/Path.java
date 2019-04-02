@@ -28,6 +28,11 @@ public class Path implements Cloneable {
         this.path = new ArrayList<String>();
         this.cost = 0;
     }
+    public Path(String location, ArrayList<String> path) {
+        this.location = location;
+        this.path = path;
+        this.cost = 0;
+    }
     public Path(String location, ArrayList<String> path, double cost ) {
         this.location = location;
         this.path = path;
