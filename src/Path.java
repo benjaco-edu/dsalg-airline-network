@@ -3,6 +3,24 @@ import java.util.ArrayList;
 public class Path implements Cloneable {
     private ArrayList<String> path;
     private double cost;
+    private String airline;
+
+    public ArrayList<String> getPath() {
+        return path;
+    }
+
+    public double getCost() {
+        return cost;
+    }
+
+    public void setCost(double cost) {
+        this.cost = cost;
+    }
+
+    public String getLocation() {
+        return location;
+    }
+
     private String location;
 
     public Path(String location) {
@@ -57,5 +75,23 @@ public class Path implements Cloneable {
         // assert a.path = []
         // assert b.location = b
         // assert b.path = [a]
+    }
+
+    public String getAirline() {
+        return airline;
+    }
+
+    public void setAirline(String airline) {
+        this.airline = airline;
+    }
+
+    @Override
+    public String toString() {
+        return "Path{" +
+                "path=" + path +
+                ", cost=" + cost +
+                ", airline='" + airline + '\'' +
+                ", location='" + location + '\'' +
+                '}';
     }
 }
