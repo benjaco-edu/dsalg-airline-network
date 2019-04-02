@@ -6,11 +6,13 @@ import java.util.List;
 
 class AirRoute{
     public String destination;
-    private double time;
-    private double distance;
+    public String airlinenetwork;
+    public double time;
+    public double distance;
 
-    public AirRoute(String destination, double time, double distance) {
+    public AirRoute(String destination, String airlinenetwork, double time, double distance) {
         this.destination = destination;
+        this.airlinenetwork = airlinenetwork;
         this.time = time;
         this.distance = distance;
     }
@@ -19,7 +21,7 @@ class AirRoute{
 public class AirrouteGraph {
     private HashMap<String, ArrayList<AirRoute>> adj;
 
-    public AirrouteGraph(int v) {
+    public AirrouteGraph() {
         adj = new HashMap();
     }
 
@@ -27,8 +29,8 @@ public class AirrouteGraph {
         adj.put(airport, new ArrayList<AirRoute>());
     }
 
-    public void addEdge(String from, String to, double time, double destination) {
-        adj.get(from).add(new AirRoute(to, time, destination));
+    public void addEdge(String from, String to, String airlinenetwork, double time, double destination) {
+        adj.get(from).add(new AirRoute(to, airlinenetwork, time, destination));
     }
     public void addEdge(String from, AirRoute route) {
         adj.get(from).add(route);
