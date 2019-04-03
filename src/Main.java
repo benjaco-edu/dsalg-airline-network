@@ -17,17 +17,12 @@ public class Main {
         Path bfs = breadthFirstSearch(graph, "AER", "OVB");
         System.out.println(bfs);
 
-        Path dij_dist = dijkstra(graph, "AER", "OVB", element -> element.distance);
-        System.out.println(dij_dist);
-
-        Path dij_time = dijkstra(graph, "AER", "OVB", element -> element.time + 1);
-        System.out.println(dij_time);
 
 
     }
 
     private static Path dijkstra(AirrouteGraph graph, String start, String end, GetCostFunction costFunction) {
-        HashMap<String, Path> Q = new HashMap<>();
+        HashMap<String, Path> unExplored = new HashMap<>();
         HashMap<String, Path> distances = new HashMap<>();
 
         for (String airport : graph.keys()) {
@@ -36,14 +31,14 @@ public class Main {
                 path.setCost(0);
                 path.getPath().add(airport);
             }
-            Q.put(airport, path);
+            unExplored.put(airport, path);
             distances.put(airport, path);
         }
 
 
-        while (Q.size() > 0) {
-            Path v = airportWithLowestDistance(Q, distances);
-            Q.remove(v.getLocation());
+        while (unExplored.size() > 0) {
+            Path v = airportWithLowestDistance(unExplored, distances);
+            unExplored.remove(v.getLocation());
 
             for(AirRoute neighbor : graph.adj(v.getLocation())){
                 double newCost = v.getCost() + costFunction.getCost(neighbor);
@@ -61,16 +56,16 @@ public class Main {
     }
 
     private static Path airportWithLowestDistance(HashMap<String,Path> q, HashMap<String,Path> distances) {
-        Double lowest = Double.MAX_VALUE;
-        Path result = null;
+        Double lowestFoundValue = Double.MAX_VALUE;
+        Path pathWithLowestValue = null;
         for (String possible : q.keySet()) {
             Path path = distances.get(possible);
-            if (path.getCost() <= lowest) {
-                result = path;
-                lowest = path.getCost();
+            if (path.getCost() <= lowestFoundValue) {
+                pathWithLowestValue = path;
+                lowestFoundValue = path.getCost();
             }
         }
-        return result;
+        return pathWithLowestValue;
     }
 
     private static boolean depthFirstSearch(AirrouteGraph graph, String start, String end) throws CloneNotSupportedException{
