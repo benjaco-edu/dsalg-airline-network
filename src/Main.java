@@ -17,6 +17,12 @@ public class Main {
         Path bfs = breadthFirstSearch(graph, "AER", "OVB");
         System.out.println(bfs);
 
+        Path dij_dist = dijkstra(graph, "AER", "OVB", element -> element.distance);
+        System.out.println(dij_dist);
+
+        Path dij_time = dijkstra(graph, "AER", "OVB", element -> element.time + 1);
+        System.out.println(dij_time);
+
 
 
     }

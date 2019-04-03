@@ -1,6 +1,6 @@
 import java.util.ArrayList;
 
-public class Path implements Cloneable {
+public class Path implements Cloneable, Comparable {
     private ArrayList<String> path;
     private double cost;
     private String airline;
@@ -98,5 +98,20 @@ public class Path implements Cloneable {
                 ", airline='" + airline + '\'' +
                 ", location='" + location + '\'' +
                 '}';
+    }
+
+    @Override
+    public int compareTo(Object o) {
+        if (o.getClass() != this.getClass()) {
+            return 0;
+        }
+        Path object = (Path) o;
+
+        if( this.cost > object.cost){
+            return 1;
+        } else if (this.cost ==  object.cost) {
+            return 0;
+        }
+        return -1;
     }
 }
