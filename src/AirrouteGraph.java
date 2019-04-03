@@ -1,8 +1,4 @@
-import java.sql.Array;
-import java.util.ArrayList;
-import java.util.Dictionary;
-import java.util.HashMap;
-import java.util.List;
+import java.util.*;
 
 class AirRoute{
     public String destination;
@@ -40,4 +36,7 @@ public class AirrouteGraph {
         return adj.get(origin);
     }
 
+    public Set<String> keys (){
+        return adj.keySet();
+    }
 }
