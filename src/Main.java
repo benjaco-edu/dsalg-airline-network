@@ -1,6 +1,4 @@
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 @FunctionalInterface
 interface GetCostFunction {
@@ -10,6 +8,7 @@ interface GetCostFunction {
 public class Main {
     public static void main(String[] args) throws CloneNotSupportedException {
         AirrouteGraph graph = buildGraph();
+        ArrayList<String> airports = readAirports();
 
         boolean dfs = depthFirstSearch(graph, "AER", "OVB");
         System.out.println(dfs);
@@ -24,6 +23,65 @@ public class Main {
         System.out.println(dij_time);
 
 
+        System.out.println( testForWidestCoverage(airports, graph) );
+
+
+    }
+
+
+    private static String testForWidestCoverage(ArrayList<String> airports, AirrouteGraph graph) {
+        int widest_airline_paths = 0;
+        String widest_airline = null;
+
+        for (String airport : airports) {
+            HashSet<String> airlines = new HashSet<>();
+
+            for (AirRoute outgoing : graph.adj(airport)) {
+                airlines.add(outgoing.airlinenetwork);
+            }
+
+            for (String airline : airlines) {
+                int coverage = buildMst(graph, airline, airport);
+                if (coverage > widest_airline_paths) {
+                    widest_airline = airline;
+                    widest_airline_paths = coverage;
+                }
+            }
+
+        }
+
+        return widest_airline + " has a max coverage of "+ widest_airline_paths;
+    }
+
+    private static int buildMst(AirrouteGraph graph, String airline, String start) {
+        HashMap<String, Double> explored = new HashMap<>();
+
+        HashSet<String> unexploredSet = new HashSet<>();
+        PQMin<AirRoute> unexplored = new PQMin<>();
+
+        unexploredSet.add(start);
+        unexplored.enqueue(new AirRoute(start, airline, 0, 0));
+
+        while (unexplored.size() > 0) {
+            AirRoute lowest = unexplored.dequeue();
+            unexploredSet.remove(lowest.destination);
+
+            explored.put(lowest.destination, lowest.distance);
+            for (AirRoute outgoing : graph.adj(lowest.destination)) {
+                if (!outgoing.airlinenetwork.equals(airline)) {
+                    continue;
+                }
+                if (explored.containsKey(outgoing.destination)) {
+                    continue;
+                }
+                if (unexploredSet.contains(outgoing.destination)) {
+                    continue;
+                }
+                unexploredSet.add(outgoing.destination);
+                unexplored.enqueue(outgoing);
+            }
+        }
+        return explored.size();
 
     }
 
@@ -172,5 +230,16 @@ public class Main {
             graph.addEdge(item[1], item[2], item[0], Double.parseDouble(item[4]), Double.parseDouble(item[3]));
         }
         return graph;
+    }
+
+
+    private static ArrayList<String> readAirports() {
+        ArrayList<String> airports = new ArrayList<>();
+
+        for (String[] item : CSVReader.readFile("src/airports.txt")) {
+            airports.add(item[0]);
+        }
+
+        return airports;
     }
 }
