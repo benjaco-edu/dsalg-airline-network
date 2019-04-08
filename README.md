@@ -48,3 +48,7 @@ minimum spanning tree
 AA has a max coverage of 429
 Took 7.466753164 seconds
 ```
+
+## Cornercuts
+
+We did cut a corner in the Dijkstra algorithm, you need to always expand the node with the lowest cost, and you need to be able to check if a given node already is explored. To implemented it right, we need to create a heap to retrieve the node with the lowest cost, and then have a second data structure to be able to retrieve a node by name to check if a given node already has been visited. We used a hashmap to both of those things, we can check if a node has been visited in O(1) time, but to get the node with the lowest cost, it can take up to O(n) where n is the number of nodes in the graph. 
