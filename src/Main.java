@@ -10,20 +10,35 @@ public class Main {
         AirrouteGraph graph = buildGraph();
         ArrayList<String> airports = readAirports();
 
+        System.out.println("depthFirstSearch: ");
+        long startTime_depthFirstSearch = System.nanoTime();
         boolean dfs = depthFirstSearch(graph, "AER", "OVB");
         System.out.println(dfs);
+        System.out.println("Took "+(System.nanoTime()-startTime_depthFirstSearch)/1e6+ " ms \n");
 
+        System.out.println("breadthFirstSearch: ");
+        long startTime_breadthFirstSearch = System.nanoTime();
         Path bfs = breadthFirstSearch(graph, "AER", "OVB");
         System.out.println(bfs);
+        System.out.println("Took "+(System.nanoTime()-startTime_breadthFirstSearch)/1e9+ " seconds \n");
 
+        System.out.println("dijkstra (distance): ");
+        long startTime_dijkstra_dist  = System.nanoTime();
         Path dij_dist = dijkstra(graph, "AER", "OVB", element -> element.distance);
         System.out.println(dij_dist);
+        System.out.println("Took "+(System.nanoTime()-startTime_dijkstra_dist )/1e9+ " seconds \n");
 
+        System.out.println("dijkstra (time): ");
+        long startTime_dijkstra_time  = System.nanoTime();
         Path dij_time = dijkstra(graph, "AER", "OVB", element -> element.time + 1);
         System.out.println(dij_time);
+        System.out.println("Took "+(System.nanoTime()-startTime_dijkstra_time )/1e9+ " seconds \n");
 
 
+        System.out.println("minimum spanning tree");
+        long startTime_mst_time  = System.nanoTime();
         System.out.println( testForWidestCoverage(airports, graph) );
+        System.out.println("Took "+(System.nanoTime()-startTime_mst_time )/1e9+ " seconds \n");
 
 
     }

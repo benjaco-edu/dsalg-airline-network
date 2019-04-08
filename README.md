@@ -24,3 +24,27 @@ Were they too slow, too large – or both?
 Airline Network Data: https://github.com/datsoftlyngby/soft2019spring-algorithms/tree/master/Weeklies/Week_11/04-assignment/Airline%20Network%20Data
 
 -----
+
+## Output
+
+```
+depthFirstSearch:
+true
+Took 0.227695 ms
+
+breadthFirstSearch:
+Path{path=[AER, KZN, CEK], cost=0.0, airline='2B', location='OVB'}
+Took 0.065220684 seconds
+
+dijkstra (distance):
+Path{path=[AER, KRR, OVB], cost=3421.5451952682306, airline='null', location='OVB'}
+Took 0.588816004 seconds
+
+dijkstra (time):
+Path{path=[AER, KRR, OVB], cost=7.271096821059627, airline='null', location='OVB'}
+Took 0.435430712 seconds
+
+minimum spanning tree
+AA has a max coverage of 429
+Took 7.466753164 seconds
+```
