@@ -33,8 +33,8 @@ true
 Took 0.227695 ms
 
 breadthFirstSearch:
-Path{path=[AER, KZN, CEK], cost=0.0, airline='2B', location='OVB'}
-Took 0.065220684 seconds
+Path{path=[OPO, FCO], cost=0.0, airline='AZ', location='LAX'}
+Took 0.548251232 seconds
 
 dijkstra (distance):
 Path{path=[AER, KRR, OVB], cost=3421.5451952682306, airline='null', location='OVB'}

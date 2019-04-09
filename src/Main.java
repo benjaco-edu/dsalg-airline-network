@@ -12,25 +12,25 @@ public class Main {
 
         System.out.println("depthFirstSearch: ");
         long startTime_depthFirstSearch = System.nanoTime();
-        boolean dfs = depthFirstSearch(graph, "AER", "OVB");
+        boolean dfs = depthFirstSearch(graph, "OPO", "LAX");
         System.out.println(dfs);
         System.out.println("Took "+(System.nanoTime()-startTime_depthFirstSearch)/1e6+ " ms \n");
 
         System.out.println("breadthFirstSearch: ");
         long startTime_breadthFirstSearch = System.nanoTime();
-        Path bfs = breadthFirstSearch(graph, "AER", "OVB");
+        Path bfs = breadthFirstSearch(graph, "OPO", "LAX");
         System.out.println(bfs);
         System.out.println("Took "+(System.nanoTime()-startTime_breadthFirstSearch)/1e9+ " seconds \n");
 
         System.out.println("dijkstra (distance): ");
         long startTime_dijkstra_dist  = System.nanoTime();
-        Path dij_dist = dijkstra(graph, "AER", "OVB", element -> element.distance);
+        Path dij_dist = dijkstra(graph, "OPO", "LAX", element -> element.distance);
         System.out.println(dij_dist);
         System.out.println("Took "+(System.nanoTime()-startTime_dijkstra_dist )/1e9+ " seconds \n");
 
         System.out.println("dijkstra (time): ");
         long startTime_dijkstra_time  = System.nanoTime();
-        Path dij_time = dijkstra(graph, "AER", "OVB", element -> element.time + 1);
+        Path dij_time = dijkstra(graph, "OPO", "LAX", element -> element.time + 1);
         System.out.println(dij_time);
         System.out.println("Took "+(System.nanoTime()-startTime_dijkstra_time )/1e9+ " seconds \n");
 
@@ -185,46 +185,60 @@ public class Main {
         return false;
     }
 
+    private static Path breathFirstSerchAirline(AirrouteGraph graph, String start, String goal, AirRoute startTrip ) throws CloneNotSupportedException {
+        FiFo<Path> frontier = new FiFo<>();
+        ArrayList<String> startPath = new ArrayList<>();
+        startPath.add(start);
+        Path item = new Path(startTrip.destination, startPath);
+        item.setAirline(startTrip.airlinenetwork);
+
+        frontier.enqueue(item);
+        Map<String, Boolean> explored = new HashMap<>();
+
+        if (startTrip.destination.equals(goal)) {
+            return frontier.dequeue();
+        }
+
+        while (frontier.size() > 0) {
+            Path node = frontier.dequeue();
+            if (node.getLocation().equals(goal)) {
+                return node;
+            }
+            explored.put(node.getLocation(), true);
+            for (AirRoute new_location : graph.adj(node.getLocation())) {
+                if (explored.containsKey(new_location.destination)
+                        || locationInQue(new_location.destination, frontier)
+                        || !new_location.airlinenetwork.equals(node.getAirline())
+                        || new_location.destination.equals(start)) {
+                    continue;
+                }
+                frontier.enqueue(node.goPath(new_location.destination));
+
+            }
+        }
+        return null;
+    }
+
     private static Path breadthFirstSearch(AirrouteGraph graph, String start, String goal) throws CloneNotSupportedException {
         if (start.equals(goal)) {
             return new Path(start);
         }
-
+        Path bestPath = null;
         for (AirRoute startTrip : graph.adj(start)) {
-            FiFo<Path> frontier = new FiFo<>();
-            ArrayList<String> startPath = new ArrayList<>();
-            startPath.add(start);
-            Path item = new Path(startTrip.destination, startPath);
-            item.setAirline(startTrip.airlinenetwork);
-
-            frontier.enqueue(item);
-            Map<String, Boolean> explored = new HashMap<>();
-
-            if (startTrip.destination.equals(goal)) {
-                return frontier.dequeue();
-            }
-
-            while (frontier.size() > 0) {
-                Path node = frontier.dequeue();
-                if (node.getLocation().equals(goal)) {
-                    return node;
-                }
-                explored.put(node.getLocation(), true);
-                for (AirRoute new_location : graph.adj(node.getLocation())) {
-                    if (explored.containsKey(new_location.destination)
-                            || locationInQue(new_location.destination, frontier)
-                            || !new_location.airlinenetwork.equals(node.getAirline())
-                            || new_location.destination.equals(start)) {
-                        continue;
+            Path route = breathFirstSerchAirline(graph, start, goal, startTrip);
+            if (route != null) {
+                if (bestPath == null) {
+                    bestPath = route;
+                } else {
+                    if (route.getPath().size() < bestPath.getPath().size()) {
+                        bestPath = route;
                     }
-                    frontier.enqueue(node.goPath(new_location.destination));
-
                 }
             }
         }
 
 
-        return null;
+        return bestPath;
     }
 
     private static boolean locationInQue(String destination, FiFo<Path> frontier) {
