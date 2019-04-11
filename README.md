@@ -41,7 +41,7 @@ Supporting data stuctures can also be found in src/*
 
 
 ### Dijksta:
-- Runned at: https://github.com/benjaco-edu/dsalg-airline-network/blob/master/src/Main.java#L125-L35
+- Runned at: https://github.com/benjaco-edu/dsalg-airline-network/blob/master/src/Main.java#L25-L35
 - Implemented at: https://github.com/benjaco-edu/dsalg-airline-network/blob/master/src/Main.java#L103-L148
 
 ### MST:
