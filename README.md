@@ -27,6 +27,29 @@ Airline Network Data: https://github.com/datsoftlyngby/soft2019spring-algorithms
 
 ## Output
 
+### Run it your self
+
+All the code for the algoritms is located in src/Main.java, both algoritms and where they are used.
+
+Supporting data stuctures can also be found in src/*
+
+#### DFS:
+- Runned at: https://github.com/benjaco-edu/dsalg-airline-network/blob/master/src/Main.java#L13-L17
+- Implemented at: https://github.com/benjaco-edu/dsalg-airline-network/blob/master/src/Main.java#L150-L186
+
+#### BFS:
+- Runned at: https://github.com/benjaco-edu/dsalg-airline-network/blob/master/src/Main.java#L19-23
+- Implemented at: https://github.com/benjaco-edu/dsalg-airline-network/blob/master/src/Main.java#L188-L251
+
+
+#### Dijksta:
+- Runned at: https://github.com/benjaco-edu/dsalg-airline-network/blob/master/src/Main.java#L125-L35
+- Implemented at: https://github.com/benjaco-edu/dsalg-airline-network/blob/master/src/Main.java#L103-L148
+
+#### MST:
+- Runned at: https://github.com/benjaco-edu/dsalg-airline-network/blob/master/src/Main.java#L38-41
+- Implemented at: https://github.com/benjaco-edu/dsalg-airline-network/blob/master/src/Main.java#L47-L101
+
 ```
 depthFirstSearch:
 true
