@@ -36,7 +36,7 @@ Supporting data stuctures can also be found in src/*
 - Implemented at: https://github.com/benjaco-edu/dsalg-airline-network/blob/master/src/Main.java#L150-L186
 
 ### BFS:
-- Runned at: https://github.com/benjaco-edu/dsalg-airline-network/blob/master/src/Main.java#L19-23
+- Runned at: https://github.com/benjaco-edu/dsalg-airline-network/blob/master/src/Main.java#L19-L23
 - Implemented at: https://github.com/benjaco-edu/dsalg-airline-network/blob/master/src/Main.java#L188-L251
 
 
@@ -45,7 +45,7 @@ Supporting data stuctures can also be found in src/*
 - Implemented at: https://github.com/benjaco-edu/dsalg-airline-network/blob/master/src/Main.java#L103-L148
 
 ### MST:
-- Runned at: https://github.com/benjaco-edu/dsalg-airline-network/blob/master/src/Main.java#L38-41
+- Runned at: https://github.com/benjaco-edu/dsalg-airline-network/blob/master/src/Main.java#L38-L41
 - Implemented at: https://github.com/benjaco-edu/dsalg-airline-network/blob/master/src/Main.java#L47-L101
 
 
